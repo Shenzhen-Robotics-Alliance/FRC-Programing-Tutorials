@@ -13,6 +13,8 @@ public class RobotShell extends TimedRobot {
 
     private final XboxController copilotGamePad = new XboxController(1);
 
+    PilotChassisService pilotChassisService;
+
     private RobotCore robotCore;
 
     public RobotShell() {
@@ -32,6 +34,8 @@ public class RobotShell extends TimedRobot {
     public void driverStationConnected() {
         // System.out.println("<-- Robot Shell | driver station connected -->");
         robotCore.initializeRobot();
+
+        pilotChassisService = new PilotChassisService(robotCore.chassisModule);
     }
 
     /** called repeatedly after the robot powers on, no matter enabled or not */
@@ -89,6 +93,7 @@ public class RobotShell extends TimedRobot {
         final List<RobotServiceBase> services = new ArrayList<>();
 
         // here, add robot services
+        services.add(pilotChassisService);
 
         robotCore.startStage(services);
     }
