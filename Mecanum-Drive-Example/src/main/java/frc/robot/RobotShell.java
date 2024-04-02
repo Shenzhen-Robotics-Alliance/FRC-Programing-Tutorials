@@ -11,8 +11,6 @@ public class RobotShell extends TimedRobot {
     private static final int updateFreq = 100;
     public static final boolean isFormalCompetition = false;
 
-    private final XboxController copilotGamePad = new XboxController(1);
-
     private RobotCore robotCore;
 
     public RobotShell() {

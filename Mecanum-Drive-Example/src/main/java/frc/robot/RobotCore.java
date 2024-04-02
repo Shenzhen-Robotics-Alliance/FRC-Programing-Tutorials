@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Drivers.Motors.CanSparkMaxMotor;
+import frc.robot.Drivers.Motors.Motor;
+import frc.robot.Modules.ChassisModule;
 import frc.robot.Modules.RobotModuleBase;
 import frc.robot.Services.RobotServiceBase;
 
@@ -15,6 +18,8 @@ import frc.robot.Services.RobotServiceBase;
 public class RobotCore {
         private final List<RobotModuleBase> modules;
         private List<RobotServiceBase> services;
+
+        public final ChassisModule chassis;
         /**
          * creates a robot core
          * creates the instances of all the modules, but do not call init functions yet
@@ -22,6 +27,14 @@ public class RobotCore {
         public RobotCore() {
                 modules = new ArrayList<>();
                 services = new ArrayList<>();
+
+                final Motor
+                        frontLeft = new CanSparkMaxMotor(0, false),
+                        frontRight = new CanSparkMaxMotor(1, false),
+                        backLeft = new CanSparkMaxMotor(2, false),
+                        backRight = new CanSparkMaxMotor(3, false);
+
+                chassis = new ChassisModule(frontLeft, frontRight, backLeft, backRight);
         }
 
         /**

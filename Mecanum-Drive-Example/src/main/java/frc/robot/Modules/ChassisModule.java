@@ -4,7 +4,7 @@ import frc.robot.Drivers.Motors.Motor;
 
 public class ChassisModule extends RobotModuleBase {
     final Motor frontLeft, frontRight, backLeft, backRight;
-    protected ChassisModule(Motor frontLeft, Motor frontRight, Motor backLeft, Motor backRight) {
+    public ChassisModule(Motor frontLeft, Motor frontRight, Motor backLeft, Motor backRight) {
         super("chassis");
         this.frontLeft = frontLeft;
         this.frontRight = frontRight;
@@ -14,16 +14,16 @@ public class ChassisModule extends RobotModuleBase {
 
     @Override
     public void init() {
-
+        // your code here
     }
 
     @Override
     protected void periodic(double dt) {
-
+        // your code here
     }
 
     @Override
     public void onReset() {
-
+        // your code here
     }
 }

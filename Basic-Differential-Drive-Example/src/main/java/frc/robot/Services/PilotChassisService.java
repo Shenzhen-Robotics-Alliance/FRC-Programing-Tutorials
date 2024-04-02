@@ -13,23 +13,29 @@ public class PilotChassisService extends RobotServiceBase {
 
     @Override
     public void init() {
-        chassis.gainOwnerShip(this);
-
-        chassis.setForward(0, this); chassis.setTurn(0, this);
+        reset();
     }
 
     @Override
     public void reset() {
+        /* gain ownership to chassis */
+        chassis.gainOwnerShip(this);
 
+        /* set chassis to be still */
+        chassis.setForward(0, this); chassis.setTurn(0, this);
     }
 
     @Override
     public void periodic() {
+        /* if there is minor movement on joystick */
         if (Math.sqrt(joystick.getX() * joystick.getX() + joystick.getY() * joystick.getY()) < 0.1) {
+            /* ignore and stop chassis */
             chassis.setForward(0, this);
             chassis.setTurn(0, this);
             return;
         }
+
+        /* otherwise, pass driver commands to chassis */
         chassis.setForward(joystick.getY() * -1, this);
         chassis.setTurn(joystick.getX() * -0.6, this);
     }
