@@ -3,7 +3,14 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Drivers.Motors.Motor;
+import frc.robot.Drivers.Motors.MotorsSet;
+import frc.robot.Drivers.Motors.TalonSRXMotor;
+import frc.robot.Drivers.Motors.VictorSPXMotor;
+import frc.robot.Modules.ChassisModule;
 import frc.robot.Modules.RobotModuleBase;
 import frc.robot.Services.RobotServiceBase;
 
@@ -15,6 +22,8 @@ import frc.robot.Services.RobotServiceBase;
 public class RobotCore {
         private final List<RobotModuleBase> modules;
         private List<RobotServiceBase> services;
+
+        public final ChassisModule chassisModule;
         /**
          * creates a robot core
          * creates the instances of all the modules, but do not call init functions yet
@@ -22,6 +31,15 @@ public class RobotCore {
         public RobotCore() {
                 modules = new ArrayList<>();
                 services = new ArrayList<>();
+
+                final Motor
+                        left = new MotorsSet(new Motor[] {
+                              new TalonSRXMotor(new TalonSRX(3), false), new TalonSRXMotor(new TalonSRX(4), false)
+                        }),
+                        right = new MotorsSet(new Motor[] {
+                                new TalonSRXMotor(new TalonSRX(1), true), new TalonSRXMotor(new TalonSRX(2), true)
+                        });
+                chassisModule = new ChassisModule(left, right); modules.add(chassisModule);
         }
 
         /**
