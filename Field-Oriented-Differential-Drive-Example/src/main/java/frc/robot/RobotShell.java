@@ -3,6 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Services.*;
+import frc.robot.Utils.Tests.ChassisHeadingPIDControllerTest;
+import frc.robot.Utils.Tests.SimpleRobotTest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,13 +82,18 @@ public class RobotShell extends TimedRobot {
         robotCore.updateModules();
     }
 
+    private SimpleRobotTest robotTest = null;
     @Override
     public void testInit() {
+        if (robotTest == null)
+            robotTest = new ChassisHeadingPIDControllerTest();
+        robotTest.testStart();
     }
 
     @Override
     public void testPeriodic() {
         // System.out.println("<-- Robot Shell | robot init -->");
+        robotTest.testPeriodic();
     }
 
     private void startManualStage() {

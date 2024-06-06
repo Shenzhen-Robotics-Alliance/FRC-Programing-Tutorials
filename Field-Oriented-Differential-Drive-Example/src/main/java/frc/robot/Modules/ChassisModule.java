@@ -33,7 +33,6 @@ public class ChassisModule extends RobotModuleBase {
         /* set power to left and right motor */
         left.setPower(forward - turn * 0.5, this);
         right.setPower(forward + turn * 0.5, this);
-
     }
 
     @Override
