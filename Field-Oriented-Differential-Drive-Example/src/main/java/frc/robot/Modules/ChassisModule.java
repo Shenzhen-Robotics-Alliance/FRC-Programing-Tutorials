@@ -57,7 +57,7 @@ public class ChassisModule extends RobotModuleBase {
      * @param turn the amount of chassis power used to rotate the chassis, positive is counter-clockwise
      * @param operator the module/service that is sending this command
      * */
-    public void setTurn(double turn, RobotModuleOperatorMarker operator) {
+    public void setRotateryPower(double turn, RobotModuleOperatorMarker operator) {
         if (!isOwner(operator))
             return;
 
