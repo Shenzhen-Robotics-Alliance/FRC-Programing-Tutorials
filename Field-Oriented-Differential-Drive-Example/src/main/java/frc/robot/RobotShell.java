@@ -86,7 +86,7 @@ public class RobotShell extends TimedRobot {
     @Override
     public void testInit() {
         if (robotTest == null)
-            robotTest = new ChassisHeadingPIDControllerTest();
+            robotTest = new ChassisHeadingPIDControllerTest(robotCore.chassisModule, robotCore.gyro);
         robotTest.testStart();
     }
 

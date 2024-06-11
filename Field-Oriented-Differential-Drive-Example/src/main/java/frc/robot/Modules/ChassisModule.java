@@ -7,19 +7,23 @@ import frc.robot.Utils.MathUtils.Vector2D;
 import frc.robot.Utils.MechanismControllers.EasyPIDController;
 import frc.robot.Utils.RobotModuleOperatorMarker;
 public class ChassisModule extends RobotModuleBase {
+    public void setTurn(double motorPower, Object o) {
+    }
+
     public enum DriveMode {
         BASIC,
         FIELD_CENTRIC
     }
     private DriveMode driveMode;
     final Motor left, right;
-    private final SimpleGyro gyro = new SimpleGyro(0, true, new NavX2IMU());
+    private final SimpleGyro gyro;
     // positive is forward, positive is counter-clockwise
     private double commandedForward, commandedTurn;
-    public ChassisModule(Motor left, Motor right) {
+    public ChassisModule(Motor left, Motor right, SimpleGyro gyro) {
         super("chassis");
         this.left = left;
         this.right = right;
+        this.gyro = gyro;
     }
 
     @Override

@@ -6,6 +6,8 @@ import java.util.List;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Drivers.IMUs.NavX2IMU;
+import frc.robot.Drivers.IMUs.SimpleGyro;
 import frc.robot.Drivers.Motors.Motor;
 import frc.robot.Drivers.Motors.MotorsSet;
 import frc.robot.Drivers.Motors.TalonSRXMotor;
@@ -24,6 +26,7 @@ public class RobotCore {
         private List<RobotServiceBase> services;
 
         public final ChassisModule chassisModule;
+        public final SimpleGyro gyro = new SimpleGyro(0, true, new NavX2IMU());
         /**
          * creates a robot core
          * creates the instances of all the modules, but do not call init functions yet
@@ -39,7 +42,7 @@ public class RobotCore {
                         right = new MotorsSet(new Motor[] {
                                 new TalonSRXMotor(new TalonSRX(1), true), new TalonSRXMotor(new TalonSRX(2), true)
                         });
-                chassisModule = new ChassisModule(left, right); modules.add(chassisModule);
+                chassisModule = new ChassisModule(left, right, gyro); modules.add(chassisModule);
         }
 
         /**
