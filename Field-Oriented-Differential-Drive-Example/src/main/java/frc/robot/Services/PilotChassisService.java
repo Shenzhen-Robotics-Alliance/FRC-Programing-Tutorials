@@ -22,7 +22,7 @@ public class PilotChassisService extends RobotServiceBase {
         chassis.gainOwnerShip(this);
 
         /* set chassis to be still */
-        chassis.setForward(0, this); chassis.setRotateryPower(0, this);
+        chassis.setForward(0, this); chassis.setRotaryPower(0, this);
     }
 
     @Override
@@ -31,13 +31,13 @@ public class PilotChassisService extends RobotServiceBase {
         if (Math.sqrt(joystick.getX() * joystick.getX() + joystick.getY() * joystick.getY()) < 0.1) {
             /* ignore and stop chassis */
             chassis.setForward(0, this);
-            chassis.setRotateryPower(0, this);
+            chassis.setRotaryPower(0, this);
             return;
         }
 
         /* otherwise, pass driver commands to chassis */
         chassis.setForward(joystick.getY() * -1, this);
-        chassis.setRotateryPower(joystick.getX() * -0.6, this);
+        chassis.setRotaryPower(joystick.getX() * -0.6, this);
     }
 
     @Override

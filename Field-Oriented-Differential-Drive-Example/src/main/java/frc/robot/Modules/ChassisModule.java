@@ -42,8 +42,7 @@ public class ChassisModule extends RobotModuleBase {
     protected void periodic(double dt) {
         /* called 50 times every second */
         switch (driveMode) {
-            case BASIC ->
-                /* set power to left and right motor */
+            case BASIC -> // set power to left and right motor
                 driveMotors(commandedForward, commandedTurn);
             case FIELD_CENTRIC -> {
                 if (motion.getMagnitude() < 0.1) {
@@ -80,6 +79,8 @@ public class ChassisModule extends RobotModuleBase {
         this.driveMode = DriveMode.FIELD_CENTRIC;
         this.motion = new Vector2D();
 
+        this.commandedForward = this.commandedTurn = 0;
+
         gyro.reset();
     }
 
@@ -100,7 +101,7 @@ public class ChassisModule extends RobotModuleBase {
      * @param turn the amount of chassis power used to rotate the chassis, positive is counter-clockwise
      * @param operator the module/service that is sending this command
      * */
-    public void setRotateryPower(double turn, RobotModuleOperatorMarker operator) {
+    public void setRotaryPower(double turn, RobotModuleOperatorMarker operator) {
         if (!isOwner(operator))
             return;
 
