@@ -1,5 +1,7 @@
 package frc.robot.Modules;
 
+import frc.robot.Drivers.IMUs.NavX2IMU;
+import frc.robot.Drivers.IMUs.SimpleGyro;
 import frc.robot.Drivers.Motors.Motor;
 import frc.robot.Utils.MathUtils.Vector2D;
 import frc.robot.Utils.MechanismControllers.EasyPIDController;
@@ -11,8 +13,9 @@ public class ChassisModule extends RobotModuleBase {
     }
     private DriveMode driveMode;
     final Motor left, right;
+    private final SimpleGyro gyro = new SimpleGyro(0, true, new NavX2IMU());
     // positive is forward, positive is counter-clockwise
-    private double forward, turn;
+    private double commandedForward, commandedTurn;
     public ChassisModule(Motor left, Motor right) {
         super("chassis");
         this.left = left;
@@ -38,23 +41,28 @@ public class ChassisModule extends RobotModuleBase {
     @Override
     protected void periodic(double dt) {
         /* called 50 times every second */
-
         switch (driveMode) {
-            case BASIC -> {
+            case BASIC ->
                 /* set power to left and right motor */
-                left.setPower(forward - turn * 0.5, this);
-                right.setPower(forward + turn * 0.5, this);
-            }
+                driveMotors(commandedForward, commandedTurn);
             case FIELD_CENTRIC -> {
                 if (motion.getMagnitude() < 0.1) {
                     left.setPower(0, this);
                     right.setPower(0, this);
                     return;
                 }
-                motion.getMagnitude();
-                motion.getHeading();
+                controller.setDesiredPosition(motion.getHeading());
+
+                final double turnPower = controller.getMotorPower(gyro.getYawVelocity(), gyro.getYaw()),
+                        forwardPower = motion.getMagnitude();
+                driveMotors(forwardPower, turnPower);
             }
         }
+    }
+
+    private void driveMotors(double forward, double turn) {
+        left.setPower(forward - turn * 0.5, this);
+        right.setPower(forward + turn * 0.5, this);
     }
 
     @Override
@@ -71,6 +79,8 @@ public class ChassisModule extends RobotModuleBase {
 
         this.driveMode = DriveMode.FIELD_CENTRIC;
         this.motion = new Vector2D();
+
+        gyro.reset();
     }
 
     /**
@@ -82,7 +92,7 @@ public class ChassisModule extends RobotModuleBase {
         if (!isOwner(operator))
             return;
 
-        this.forward = forward;
+        this.commandedForward = forward;
     }
 
     /**
@@ -94,7 +104,7 @@ public class ChassisModule extends RobotModuleBase {
         if (!isOwner(operator))
             return;
 
-        this.turn = turn;
+        this.commandedTurn = turn;
     }
 
     private Vector2D motion;
