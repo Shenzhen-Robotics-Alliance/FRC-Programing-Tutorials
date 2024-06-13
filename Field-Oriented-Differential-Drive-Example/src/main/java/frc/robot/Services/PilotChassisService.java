@@ -2,6 +2,7 @@ package frc.robot.Services;
 
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Modules.ChassisModule;
+import frc.robot.Utils.MathUtils.Vector2D;
 
 public class PilotChassisService extends RobotServiceBase {
     private final ChassisModule chassis;
@@ -34,10 +35,14 @@ public class PilotChassisService extends RobotServiceBase {
             chassis.setRotaryPower(0, this);
             return;
         }
-
-        /* otherwise, pass driver commands to chassis */
         chassis.setForward(joystick.getY() * -1, this);
         chassis.setRotaryPower(joystick.getX() * -0.6, this);
+
+        // TODO: here, add a button on the joystick such that
+        //  whenever the button is pressed, the chassis drives in field-centric mode, using the input from the joystick
+        //  Hints:
+        joystick.getRawButton(3); // returns true if button 3 on the joystick is pressed, you can find the joystick button port on the driver station
+        new Vector2D(new double[] {joystick.getX(), -joystick.getY()}); // creates a Vector corresponding to the pilot's translational input
     }
 
     @Override

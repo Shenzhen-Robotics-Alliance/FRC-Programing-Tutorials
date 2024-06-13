@@ -19,13 +19,13 @@ public class ChassisHeadingPIDControllerTest implements SimpleRobotTest {
     @Override
     public void testStart() {
         chassis.init();
+        chassis.reset();
         chassis.enable();
     }
 
     @Override
     public void testPeriodic() {
         /* we will try make the chassis stay at its starting rotation */
-
         controller.setDesiredPosition(0);
         /* if button A is pressed, send the controller's output to chassis as rotating power */
         if (xboxController.getAButton())
@@ -34,6 +34,5 @@ public class ChassisHeadingPIDControllerTest implements SimpleRobotTest {
         else
             chassis.setTurn(-xboxController.getRightX(), null);
         chassis.periodic();
-
     }
 }
