@@ -3,12 +3,10 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Drivers.Motors.Motor;
 import frc.robot.Drivers.Motors.MotorsSet;
-import frc.robot.Drivers.Motors.TalonSRXMotor;
 import frc.robot.Drivers.Motors.VictorSPXMotor;
 import frc.robot.Modules.ChassisModule;
 import frc.robot.Modules.RobotModuleBase;
@@ -22,7 +20,6 @@ import frc.robot.Services.RobotServiceBase;
 public class RobotCore {
         private final List<RobotModuleBase> modules;
         private List<RobotServiceBase> services;
-
         public final ChassisModule chassisModule;
         /**
          * creates a robot core
