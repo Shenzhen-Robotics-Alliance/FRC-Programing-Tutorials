@@ -1,20 +1,18 @@
 package frc.robot;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Drivers.IMUs.NavX2IMU;
 import frc.robot.Drivers.IMUs.SimpleGyro;
 import frc.robot.Drivers.Motors.Motor;
 import frc.robot.Drivers.Motors.MotorsSet;
-import frc.robot.Drivers.Motors.TalonSRXMotor;
 import frc.robot.Drivers.Motors.VictorSPXMotor;
 import frc.robot.Modules.ChassisModule;
 import frc.robot.Modules.RobotModuleBase;
 import frc.robot.Services.RobotServiceBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -37,10 +35,11 @@ public class RobotCore {
 
                 final Motor
                         left = new MotorsSet(new Motor[] {
-                              new TalonSRXMotor(new TalonSRX(3), false), new TalonSRXMotor(new TalonSRX(4), false)
-                        }),
+                                new VictorSPXMotor(new VictorSPX(1), false),
+                                new VictorSPXMotor(new VictorSPX(4),false)}),
                         right = new MotorsSet(new Motor[] {
-                                new TalonSRXMotor(new TalonSRX(1), true), new TalonSRXMotor(new TalonSRX(2), true)
+                                new VictorSPXMotor(new VictorSPX(2),true),
+                                new VictorSPXMotor(new VictorSPX(3),true)
                         });
                 chassisModule = new ChassisModule(left, right, gyro); modules.add(chassisModule);
         }

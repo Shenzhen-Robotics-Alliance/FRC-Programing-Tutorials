@@ -1,11 +1,12 @@
 package frc.robot.Services;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Modules.ChassisModule;
 
 public class PilotChassisService extends RobotServiceBase {
     private final ChassisModule chassis;
-    private final Joystick joystick = new Joystick(0);
+    private final XboxController xboxController = new XboxController(1);
     public PilotChassisService(ChassisModule chassis) {
         super("pilot chassis service");
         this.chassis = chassis;
@@ -28,7 +29,7 @@ public class PilotChassisService extends RobotServiceBase {
     @Override
     public void periodic() {
         /* if there is minor movement on joystick */
-        if (Math.sqrt(joystick.getX() * joystick.getX() + joystick.getY() * joystick.getY()) < 0.1) {
+        if (Math.sqrt(xboxController.getLeftX() * xboxController.getLeftX() + xboxController.getRightY() * xboxController.getRightY()) < 0.05) {
             /* ignore and stop chassis */
             chassis.setForward(0, this);
             chassis.setTurn(0, this);
@@ -36,8 +37,8 @@ public class PilotChassisService extends RobotServiceBase {
         }
 
         /* otherwise, pass driver commands to chassis */
-        chassis.setForward(joystick.getY() * -1, this);
-        chassis.setTurn(joystick.getX() * -0.6, this);
+        chassis.setForward(xboxController.getRightY() * -0.5, this);
+        chassis.setTurn(xboxController.getLeftX()* -0.3, this);
     }
 
     @Override
