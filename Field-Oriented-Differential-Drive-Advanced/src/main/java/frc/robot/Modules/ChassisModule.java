@@ -84,13 +84,15 @@ public class ChassisModule extends RobotModuleBase {
     }
 
     /**
-     *
+     * @param desiredMotion
+     * @param currentRobotFacing
+     * @return get the amount of linear motion that the tank drive needs to drive (in its forward direction)
      * */
     private static double getLinearMotionProjectionOnCurrentFacing(Vector2D desiredMotion, double currentRobotFacing) {
         final double differenceToDesiredMotion = AngleUtils.getActualDifference(currentRobotFacing, desiredMotion.getHeading());
         if (Math.abs(differenceToDesiredMotion) > Math.toRadians(45))
             return 0;
-        return Math.cos(AngleUtils.getActualDifference(currentRobotFacing, desiredMotion.getHeading());
+        return Math.cos(AngleUtils.getActualDifference(currentRobotFacing, desiredMotion.getHeading()));
     }
 
     /**
