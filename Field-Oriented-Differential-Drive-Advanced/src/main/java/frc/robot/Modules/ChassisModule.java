@@ -2,6 +2,7 @@ package frc.robot.Modules;
 
 import frc.robot.Drivers.IMUs.SimpleGyro;
 import frc.robot.Drivers.Motors.Motor;
+import frc.robot.Utils.MathUtils.AngleUtils;
 import frc.robot.Utils.MathUtils.Vector2D;
 import frc.robot.Utils.MechanismControllers.EasyPIDController;
 import frc.robot.Utils.RobotModuleOperatorMarker;
@@ -53,29 +54,43 @@ public class ChassisModule extends RobotModuleBase {
                     driveMotors(commandedForward, commandedTurn);
             }
             case FIELD_CENTRIC -> {
-                System.out.println("motion: " + desired2DMotion);
-
-                /*
-                * TODO complete the field-centric driving mode with the following steps:
-                *   1. apply a 5% dead-band, if the magnitude of motion is smaller than 0.05, let the chassis stay still
-                *   2. otherwise, obtain the direction of the current desired motion
-                *   3. send the direction of the desired motion to PID controller
-                *   4. get the correction power from PID controller, use it as the "turn power"
-                *   5. use the magnitude of motion as the "forward power"
-                *   HINTS:
-                *  */
-                desired2DMotion.getMagnitude(); // get the magnitude of the desired motion, in double (0~1)
-                desired2DMotion.getHeading(); // get the heading(direction) of the current motion
-                chassisRotationPIDController.setDesiredPosition(0); // set the desired rotation to 0
-                chassisRotationPIDController.getMotorPower(gyro.getYawVelocity(), gyro.getYaw()); // using the current data from the gyro, get the calculated PID correction power from the controller
-                driveMotors(
-                        // set the forward power to 0.2 (-1 ~ 1)
-                        0.2,
-                        // the turn power (-1 ~ 1) to -0.4
-                        -0.4
-                );
+                if (desired2DMotion.getMagnitude() < 0.05)
+                    driveMotors(0, 0);
+                chassisRotationPIDController.setDesiredPosition(desired2DMotion.getHeading());
+                driveMotors(desired2DMotion.getMagnitude(), chassisRotationPIDController.getMotorPower(gyro.getYawVelocity(), gyro.getYaw()));
             }
         }
+    }
+
+    /**
+     * @param desiredMotion the desired motion of the robot, in reference to the field
+     * @param currentRobotFacing the current rotation of the robot
+     * @return the nearest rotation to the current rotation at which the robot will be lined-up with the desired motion
+     * */
+    private static double getNearestDesiredRotation(Vector2D desiredMotion, double currentRobotFacing) {
+        /*
+        * TODO write this part
+        *  hint: to align the robot to the direction of the desired motion, the robot either has to face to desiredMotion.getHeading(), or it can face to desiredMotion.getHeading() + Math.PI
+        * */
+
+        // TODO find the rotation difference from current facing to desired motion direction, or (desired motion direction + 180 degrees)
+        final double rotationDifferenceToDesiredMotionDirection = AngleUtils.getActualDifference(0, 0),
+                rotationDifferenceToReversedDesiredMotionDirection = AngleUtils.getActualDifference(0, 0);
+
+        if (Math.abs(rotationDifferenceToDesiredMotionDirection) - Math.abs(rotationDifferenceToReversedDesiredMotionDirection) > Math.toRadians(10))
+            /* if the reversed direction of desiredMotion is 10 degrees SMALLER than the raw direction of desiredMotion */
+            return 0; // TODO here we return the reversed direction of desiredMotion
+        return 0; // TODO here we return the raw direction of desiredMotion
+    }
+
+    /**
+     *
+     * */
+    private static double getLinearMotionProjectionOnCurrentFacing(Vector2D desiredMotion, double currentRobotFacing) {
+        final double differenceToDesiredMotion = AngleUtils.getActualDifference(currentRobotFacing, desiredMotion.getHeading());
+        if (Math.abs(differenceToDesiredMotion) > Math.toRadians(45))
+            return 0;
+        return Math.cos(AngleUtils.getActualDifference(currentRobotFacing, desiredMotion.getHeading());
     }
 
     /**
